@@ -315,3 +315,6 @@ prs = list([
 for i, p in enumerate(prs):
     with open(f"output/prs_{i}.json", "w") as outfile:
         json.dump(p, outfile)
+
+    upload_file(f"output/prs_{i}.json", "concept-abm",
+                object_name=f"configuration/scenario/{i}/prs.json")
