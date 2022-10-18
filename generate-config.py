@@ -3,6 +3,7 @@
 import polars as pl
 import os
 import numpy as np
+import json
 import pandas as pd
 import boto3
 import logging
@@ -270,3 +271,47 @@ for i in range(len(beliefs_scenarios)):
 
     upload_file(f"output/beliefs_{i}.json", "concept-abm",
                 object_name=f"configuration/scenario/{i}/beliefs.json")
+
+# PRS -------------------------------------------------------------------------
+
+# This is a belief x behaviour array of random distributions for the parameters
+# Behaviours: walk, cycle, PT, drive
+prs_mat = np.array([
+    # I care about the environment
+    [n(0.6, 0.1), n(0.7, 0.1), n(0.4, 0.1), n(-0.9, 0.1)],
+    # I want to get to work quickly
+    [n(-0.3, 0.1), n(0.0, 0.1), n(0.1, 0.1), n(0.5, 0.1)],
+    [n(0.6, 0.1), n(0.7, 0.1), n(0.4, 0.1), n(-0.9, 0.1)],
+    [n(0.6, 0.1), n(0.7, 0.1), n(0.4, 0.1), n(-0.9, 0.1)],
+    [n(0.6, 0.1), n(0.7, 0.1), n(0.4, 0.1), n(-0.9, 0.1)],
+    [n(0.6, 0.1), n(0.7, 0.1), n(0.4, 0.1), n(-0.9, 0.1)],
+    [n(0.6, 0.1), n(0.7, 0.1), n(0.4, 0.1), n(-0.9, 0.1)],
+    [n(0.6, 0.1), n(0.7, 0.1), n(0.4, 0.1), n(-0.9, 0.1)],
+    [n(0.6, 0.1), n(0.7, 0.1), n(0.4, 0.1), n(-0.9, 0.1)],
+    [n(0.6, 0.1), n(0.7, 0.1), n(0.4, 0.1), n(-0.9, 0.1)],
+    [n(0.6, 0.1), n(0.7, 0.1), n(0.4, 0.1), n(-0.9, 0.1)],
+    [n(0.6, 0.1), n(0.7, 0.1), n(0.4, 0.1), n(-0.9, 0.1)],
+    [n(0.6, 0.1), n(0.7, 0.1), n(0.4, 0.1), n(-0.9, 0.1)],
+    [n(0.6, 0.1), n(0.7, 0.1), n(0.4, 0.1), n(-0.9, 0.1)],
+    [n(0.6, 0.1), n(0.7, 0.1), n(0.4, 0.1), n(-0.9, 0.1)],
+    [n(0.6, 0.1), n(0.7, 0.1), n(0.4, 0.1), n(-0.9, 0.1)],
+    [n(0.6, 0.1), n(0.7, 0.1), n(0.4, 0.1), n(-0.9, 0.1)],
+    [n(0.6, 0.1), n(0.7, 0.1), n(0.4, 0.1), n(-0.9, 0.1)],
+    [n(0.6, 0.1), n(0.7, 0.1), n(0.4, 0.1), n(-0.9, 0.1)],
+    [n(0.6, 0.1), n(0.7, 0.1), n(0.4, 0.1), n(-0.9, 0.1)],
+])
+
+prs = list([
+    list([
+        {
+            "beliefUuid": belief_uuids[i],
+            "behaviourUuid": behaviour_uuids[j],
+            "value": prs_mat[i, j].rvs()
+        } for i in np.where(col)[0] for j in range(prs_mat.shape[1])
+    ])
+    for col in include_beliefs.T
+])
+
+for i, p in enumerate(prs):
+    with open(f"output/prs_{i}.json", "w") as outfile:
+        json.dump(p, outfile)
