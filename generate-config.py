@@ -54,7 +54,7 @@ behaviour_df = pl.DataFrame({
 behaviour_df.write_json("output/behaviours.json", row_oriented=True)
 
 upload_file("output/behaviours.json", "concept-abm",
-            object_name="behaviours.json")
+            object_name="configuration/global/behaviours.json")
 
 # Process beliefs -------------------------------------------------------------
 
@@ -209,3 +209,6 @@ for i in range(len(beliefs_scenarios)):
     beliefs_scenarios[i].to_json(
         f"output/beliefs_{i}.json", orient="records"
     )
+
+    upload_file(f"output/beliefs_{i}.json", "concept-abm",
+                object_name=f"configuration/scenario/{i}/beliefs.json")
