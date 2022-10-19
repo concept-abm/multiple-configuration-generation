@@ -318,3 +318,12 @@ for i, p in enumerate(prs):
 
     upload_file(f"output/prs_{i}.json", "concept-abm",
                 object_name=f"configuration/scenario/{i}/prs.json")
+
+# Generate agent --------------------------------------------------------------
+
+n_agents = 5000
+
+agent_namespace = UUID("1a9e3ee9-a068-41f8-9f46-a5f684f0101e")
+
+agent_uuids = [
+    str(uuid5(agent_namespace, f"agent_20221019v1_{i}")) for i in range(n_agents)]
