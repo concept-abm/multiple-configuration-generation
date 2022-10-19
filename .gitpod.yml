@@ -1,7 +1,7 @@
-
 tasks:
-  - name: pip requirements
+  - name: Setup python requirements
     init: |
+      pyenv install < .python-version
       pip install -r requirements.txt
 vscode:
   extensions:
