@@ -7,6 +7,7 @@ import json
 import pandas as pd
 import boto3
 import logging
+import networkx
 from botocore.exceptions import ClientError
 from uuid import uuid5, UUID
 from scipy.stats import bernoulli, truncnorm
@@ -327,3 +328,44 @@ agent_namespace = UUID("1a9e3ee9-a068-41f8-9f46-a5f684f0101e")
 
 agent_uuids = [
     str(uuid5(agent_namespace, f"agent_20221019v1_{i}")) for i in range(n_agents)]
+
+# Generate friends
+
+a, b = (0 - 0.3) / 0.1, (1 - 0.3) / 0.1
+p_dist = truncnorm(a, b, loc=0.3, scale=0.1)
+
+networks = [networkx.watts_strogatz_graph(
+    n=n_agents,
+    k=np.random.binomial(20, 0.5),
+    p=p_dist.rvs()
+) for _i in n_scenarios
+]
+
+# 80% chance of being friends with yourself
+rng = np.random.default_rng()
+
+for network in networks:
+    for i in range(n_agents):
+        if rng.random() <= 0.8:
+            network.add_edge(i, i)
+
+# Add weights
+a, b = (0 - 0.5) / 0.15, (1 - 0.5) / 0.15
+w_dist = truncnorm(a, b, loc=0.5, scale=0.15)
+
+for network in networks:
+    for edge in network.edges:
+        network.edges[edge[0], edge[1]]["weight"] = w_dist.rvs()
+
+friends = np.full([n_scenarios, n_agents], {})
+for i, network in enumerate(networks):
+    for edge in network:
+        friends[i, edge[0]][agent_uuids[edge[1]]] =\
+            network.edges[edge[0], edge[1]]["weight"]
+
+# Generate deltas
+
+deltas = rng.normal(loc=1.0-0.001, scale=0.1,
+                    size=(n_scenarios, n_agents, len(belief_uuids)))
+# Ensure fully positive (v. unlikely for this not to be the case)
+deltas = np.abs(deltas) + 0.0001
