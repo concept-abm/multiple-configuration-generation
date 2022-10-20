@@ -1,7 +1,6 @@
 tasks:
   - name: Setup python requirements
     init: |
-      pyenv install < .python-version
       pip install -r requirements.txt
 vscode:
   extensions:
@@ -9,3 +8,5 @@ vscode:
     - ms-toolsai.jupyter
     - ms-toolsai.jupyter-keymap
     - ms-toolsai.jupyter-renderers
+image:
+  file: .gitpod.dockerfile
