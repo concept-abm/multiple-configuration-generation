@@ -8,9 +8,11 @@ import pandas as pd
 import boto3
 import logging
 import networkx
+import sys
 from botocore.exceptions import ClientError
 from uuid import uuid5, UUID
 from scipy.stats import bernoulli, truncnorm
+
 
 # s3 --------------------------------------------------------------------------
 
@@ -40,7 +42,8 @@ def upload_file(file_name, bucket, object_name=None):
 
 # Configuration ---------------------------------------------------------------
 
-n_scenarios = 10
+scenario_id = sys.argv[1]
+os.makedirs(f"output/scenario/{scenario_id}")
 
 # Process behaviours ----------------------------------------------------------
 
@@ -54,10 +57,11 @@ behaviour_df = pl.DataFrame({
     "uuid": behaviour_uuids,
 })
 
-behaviour_df.write_json("output/behaviours.json", row_oriented=True)
+behaviour_df.write_json(
+    f"output/scenario/{scenario_id}/behaviours.json", row_oriented=True)
 
-# upload_file("output/behaviours.json", "concept-abm",
-#             object_name="configuration/global/behaviours.json")
+upload_file(f"output/scenario/{scenario_id}/behaviours.json", "concept-abm",
+            object_name=f"configuration/scenario/{scenario_id}/behaviours.json")
 
 # Process beliefs -------------------------------------------------------------
 
@@ -250,29 +254,29 @@ dist_beliefs = [
     bernoulli(0.6) for _i in range(len(beliefs))
 ]
 
-include_beliefs = np.array([
-    b.rvs(size=n_scenarios) for b in dist_beliefs
-])
+include_beliefs = np.array([b.rvs() for b in dist_beliefs])
 
-beliefs_scenarios = [pd.DataFrame({
-    "beliefs": beliefs[np.where(col)],
-    "uuids": belief_uuids[np.where(col)],
-    "perceptions": np.array(list(
-        {behaviour_uuids[i]: row[i].rvs() for i in range(len(row))}
-        for row in perceptions[np.where(col)])),
-    "relationships": np.array(list(
-        {belief_uuids[i]: row[i].rvs() for i in np.where(col)[0]}
-        for row in relationships[np.where(col)]
-    ))
-}) for col in include_beliefs.T]
+beliefs_df = pd.DataFrame({
+    "name": beliefs[np.where(include_beliefs)],
+    "uuid": belief_uuids[np.where(include_beliefs)],
+    "perceptions": np.array([
+        {
+            behaviour_uuids[i]: row[i].rvs() for i in range(len(row))
+        } for row in perceptions[np.where(include_beliefs)]
+    ]),
+    "relationships": np.array([
+        {
+            belief_uuids[i]: row[i].rvs() for i in np.where(include_beliefs)[0]
+        } for row in relationships[np.where(include_beliefs)]
+    ])
+})
 
-for i in range(len(beliefs_scenarios)):
-    beliefs_scenarios[i].to_json(
-        f"output/beliefs_{i}.json", orient="records"
-    )
-
-    # upload_file(f"output/beliefs_{i}.json", "concept-abm",
-    #             object_name=f"configuration/scenario/{i}/beliefs.json")
+beliefs_df.to_json(
+    f"output/scenario/{scenario_id}/beliefs.json",
+    orient="records"
+)
+upload_file(f"output/scenario/{scenario_id}/beliefs.json", "concept-abm",
+            object_name=f"configuration/scenario/{scenario_id}/beliefs.json")
 
 # PRS -------------------------------------------------------------------------
 
@@ -303,23 +307,19 @@ prs_mat = np.array([
     [n(0.6, 0.1), n(0.7, 0.1), n(0.4, 0.1), n(-0.9, 0.1)],
 ])
 
-prs = list([
-    list([
-        {
-            "beliefUuid": belief_uuids[i],
-            "behaviourUuid": behaviour_uuids[j],
-            "value": prs_mat[i, j].rvs()
-        } for i in np.where(col)[0] for j in range(prs_mat.shape[1])
-    ])
-    for col in include_beliefs.T
-])
+prs = [
+    {
+        "beliefUuid": belief_uuids[i],
+        "behaviourUuid": behaviour_uuids[j],
+        "value": prs_mat[i, j].rvs()
+    } for i in np.where(include_beliefs)[0] for j in range(prs_mat.shape[1])
+]
 
-for i, p in enumerate(prs):
-    with open(f"output/prs_{i}.json", "w") as outfile:
-        json.dump(p, outfile)
+with open(f"output/scenario/{scenario_id}/prs.json", "w") as outfile:
+    json.dump(prs, outfile)
 
-    # upload_file(f"output/prs_{i}.json", "concept-abm",
-    #             object_name=f"configuration/scenario/{i}/prs.json")
+upload_file(f"output/scenario/{scenario_id}/prs.json", "concept-abm",
+            object_name=f"configuration/scenario/{scenario_id}/prs.json")
 
 # Generate agent --------------------------------------------------------------
 
@@ -335,40 +335,35 @@ agent_uuids = [
 a, b = (0 - 0.3) / 0.1, (1 - 0.3) / 0.1
 p_dist = truncnorm(a, b, loc=0.3, scale=0.1)
 
-networks = [
-    networkx.watts_strogatz_graph(
-        n=n_agents,
-        k=np.random.binomial(20, 0.5),
-        p=p_dist.rvs()
-    ) for _i in range(n_scenarios)
-]
+network = networkx.watts_strogatz_graph(
+    n=n_agents,
+    k=np.random.binomial(20, 0.5),
+    p=p_dist.rvs()
+)
 
 # 80% chance of being friends with yourself
 rng = np.random.default_rng()
 
-for network in networks:
-    for i in range(n_agents):
-        if rng.random() <= 0.8:
-            network.add_edge(i, i)
+for i in range(n_agents):
+    if rng.random() <= 0.8:
+        network.add_edge(i, i)
 
 # Add weights
 a, b = (0 - 0.5) / 0.15, (1 - 0.5) / 0.15
 w_dist = truncnorm(a, b, loc=0.5, scale=0.15)
 
-for network in networks:
-    for edge in network.edges:
-        network.edges[edge[0], edge[1]]["weight"] = w_dist.rvs()
+for edge in network.edges:
+    network.edges[edge[0], edge[1]]["weight"] = w_dist.rvs()
 
-friends = np.full([n_scenarios, n_agents], {})
-for i, network in enumerate(networks):
-    for edge in network.edges:
-        friends[i, edge[0]][agent_uuids[edge[1]]
-                            ] = network.edges[edge[0], edge[1]]["weight"]
+friends = np.full(n_agents, {})
+for edge in network.edges:
+    friends[edge[0]][agent_uuids[edge[1]]
+                     ] = network.edges[edge[0], edge[1]]["weight"]
 
 # Generate deltas
 
 deltas = rng.normal(loc=1.0-0.001, scale=0.1,
-                    size=(n_scenarios, n_agents, len(belief_uuids)))
+                    size=(n_agents, len(belief_uuids)))
 # Ensure fully positive (v. unlikely for this not to be the case)
 deltas = np.abs(deltas) + 0.0001
 
@@ -379,14 +374,14 @@ deltas = np.abs(deltas) + 0.0001
 loc = 0.5
 scale = 0.1
 a, b = (0 - loc) / scale, (1 - loc) / scale
-pr = truncnorm.rvs(a, b, loc=loc, scale=scale, size=n_scenarios)
+pr = truncnorm.rvs(a, b, loc=loc, scale=scale)
 
 # Each initial activation drawn from 0, 0.1 capped at -1, +1.
 
 
-def random_activation(scenario):
+def random_activation():
     rng = np.random.default_rng()
-    if rng.random() <= pr[scenario]:
+    if rng.random() <= pr:
         return 0.0
     else:
         loc = 0.0
@@ -396,15 +391,13 @@ def random_activation(scenario):
 
 
 activations = [
-    [
-        {
-            0: {
-                belief_uuid: random_activation(i)
-                for belief_uuid in belief_uuids[np.where(include_beliefs[:, i])[0]]
-            }
+    {
+        0: {
+            belief_uuid: random_activation()
+            for belief_uuid in belief_uuids[np.where(include_beliefs)[0]]
         }
-        for j in range(n_agents)
-    ] for i in range(n_scenarios)
+    }
+    for _j in range(n_agents)
 ]
 
 # Generate initial actions
@@ -415,57 +408,48 @@ def choose_initial_actions(activations, prs):
 
 
 prs_select_mat = np.zeros(
-    (n_scenarios, len(belief_uuids), len(behaviour_uuids)), dtype=np.float64)
+    (len(belief_uuids), len(behaviour_uuids)), dtype=np.float64)
 
-for i, p in enumerate(prs):
-    for inner in p:
-        prs_select_mat[
-            0,
-            np.where(belief_uuids == inner["beliefUuid"])[0][0],
-            np.where(behaviour_uuids == inner["behaviourUuid"])[0][0],
-        ] = inner["value"]
+for inner in prs:
+    prs_select_mat[
+        np.where(belief_uuids == inner["beliefUuid"])[0][0],
+        np.where(behaviour_uuids == inner["behaviourUuid"])[0][0],
+    ] = inner["value"]
 
-initial_actions = [
-    choose_initial_actions(
-        np.array([
-            [
-                activations[i][agent_i][0][belief_uuid]
-                for belief_uuid in belief_uuids[np.where(include_beliefs[:, i])[0]]
-            ] for agent_i in range(n_agents)
-        ]),
-        prs_select_mat[i][np.where(include_beliefs[:, i])[0]]
-    )
-    for i in range(n_scenarios)
-]
+initial_actions = choose_initial_actions(
+    np.array([
+        [
+            activations[agent_i][0][belief_uuid]
+            for belief_uuid in belief_uuids[np.where(include_beliefs)[0]]
+        ] for agent_i in range(n_agents)
+    ]),
+    prs_select_mat[np.where(include_beliefs)[0]]
+)
 
 actions = [
-    [
-        {
-            0: behaviour_uuids[initial_actions[i][j]]
-        } for j in range(n_agents)
-    ] for i in range(n_scenarios)
+    {
+        0: behaviour_uuids[initial_actions[j]]
+    } for j in range(n_agents)
 ]
 # Process and save agents
 
-agents = [
-    pd.DataFrame({
-        "uuid": agent_uuids,
-        "friends": friends[i],
-        "deltas": [
-            {
-                belief_uuids[belief_i]: deltas[i, agent_i, belief_i]
-                for belief_i in np.where(include_beliefs[:, i])[0]
-            } for agent_i in range(n_agents)
-        ],
-        "activations": activations[i],
-        "actions": actions[i]
-    }) for i in range(n_scenarios)
-]
+agents = pd.DataFrame({
+    "uuid": agent_uuids,
+    "friends": friends,
+    "deltas": [
+        {
+            belief_uuids[belief_i]: deltas[agent_i, belief_i]
+            for belief_i in np.where(include_beliefs)[0]
+        } for agent_i in range(n_agents)
+    ],
+    "activations": activations,
+    "actions": actions
+})
 
-for i in range(n_scenarios):
-    agents[i].to_json(
-        f"output/agents_{i}.json.zst", orient="records"
-    )
+agents.to_json(
+    f"output/scenario/{scenario_id}/agents.json.zst", orient="records"
+)
 
-    # upload_file(f"output/beliefs_{i}.json", "concept-abm",
-    #             object_name=f"configuration/scenario/{i}/beliefs.json")
+
+upload_file(f"output/scenario/{scenario_id}/agents.json.zst", "concept-abm",
+            object_name=f"configuration/scenario/{scenario_id}/agents.json.zst")
