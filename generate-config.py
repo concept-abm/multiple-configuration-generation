@@ -334,11 +334,12 @@ agent_uuids = [
 a, b = (0 - 0.3) / 0.1, (1 - 0.3) / 0.1
 p_dist = truncnorm(a, b, loc=0.3, scale=0.1)
 
-networks = [networkx.watts_strogatz_graph(
-    n=n_agents,
-    k=np.random.binomial(20, 0.5),
-    p=p_dist.rvs()
-) for _i in n_scenarios
+networks = [
+    networkx.watts_strogatz_graph(
+        n=n_agents,
+        k=np.random.binomial(20, 0.5),
+        p=p_dist.rvs()
+    ) for _i in range(n_scenarios)
 ]
 
 # 80% chance of being friends with yourself
@@ -359,9 +360,9 @@ for network in networks:
 
 friends = np.full([n_scenarios, n_agents], {})
 for i, network in enumerate(networks):
-    for edge in network:
-        friends[i, edge[0]][agent_uuids[edge[1]]] =\
-            network.edges[edge[0], edge[1]]["weight"]
+    for edge in network.edges:
+        friends[i, edge[0]][agent_uuids[edge[1]]
+                            ] = network.edges[edge[0], edge[1]]["weight"]
 
 # Generate deltas
 
