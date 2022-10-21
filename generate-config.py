@@ -9,6 +9,7 @@ import boto3
 import logging
 import networkx
 import sys
+import shutil
 from botocore.exceptions import ClientError
 from uuid import uuid5, UUID
 from scipy.stats import bernoulli, truncnorm
@@ -453,3 +454,5 @@ agents.to_json(
 
 upload_file(f"output/scenario/{scenario_id}/agents.json.zst", "concept-abm",
             object_name=f"configuration/scenario/{scenario_id}/agents.json.zst")
+
+shutil.rmtree(f"output/scenario/{scenario_id}")
