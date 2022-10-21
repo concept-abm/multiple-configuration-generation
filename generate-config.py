@@ -46,7 +46,8 @@ n_scenarios = 10
 
 behaviours = ["Walk", "Cycle", "PT", "Drive"]
 behaviour_namespace = UUID("24875ff2-c3ee-449a-85ad-c271bd369caf")
-behaviour_uuids = [str(uuid5(behaviour_namespace, b)) for b in behaviours]
+behaviour_uuids = np.array(
+    [str(uuid5(behaviour_namespace, b)) for b in behaviours])
 
 behaviour_df = pl.DataFrame({
     "name": behaviours,
@@ -55,8 +56,8 @@ behaviour_df = pl.DataFrame({
 
 behaviour_df.write_json("output/behaviours.json", row_oriented=True)
 
-upload_file("output/behaviours.json", "concept-abm",
-            object_name="configuration/global/behaviours.json")
+# upload_file("output/behaviours.json", "concept-abm",
+#             object_name="configuration/global/behaviours.json")
 
 # Process beliefs -------------------------------------------------------------
 
@@ -270,8 +271,8 @@ for i in range(len(beliefs_scenarios)):
         f"output/beliefs_{i}.json", orient="records"
     )
 
-    upload_file(f"output/beliefs_{i}.json", "concept-abm",
-                object_name=f"configuration/scenario/{i}/beliefs.json")
+    # upload_file(f"output/beliefs_{i}.json", "concept-abm",
+    #             object_name=f"configuration/scenario/{i}/beliefs.json")
 
 # PRS -------------------------------------------------------------------------
 
@@ -317,8 +318,8 @@ for i, p in enumerate(prs):
     with open(f"output/prs_{i}.json", "w") as outfile:
         json.dump(p, outfile)
 
-    upload_file(f"output/prs_{i}.json", "concept-abm",
-                object_name=f"configuration/scenario/{i}/prs.json")
+    # upload_file(f"output/prs_{i}.json", "concept-abm",
+    #             object_name=f"configuration/scenario/{i}/prs.json")
 
 # Generate agent --------------------------------------------------------------
 
@@ -372,6 +373,78 @@ deltas = rng.normal(loc=1.0-0.001, scale=0.1,
 deltas = np.abs(deltas) + 0.0001
 
 
+# Generate activations
+
+# Each scenario has a different cutoff prob. distributed N(0.5,0.1) truncated
+loc = 0.5
+scale = 0.1
+a, b = (0 - loc) / scale, (1 - loc) / scale
+pr = truncnorm.rvs(a, b, loc=loc, scale=scale, size=n_scenarios)
+
+# Each initial activation drawn from 0, 0.1 capped at -1, +1.
+
+
+def random_activation(scenario):
+    rng = np.random.default_rng()
+    if rng.random() <= pr[scenario]:
+        return 0.0
+    else:
+        loc = 0.0
+        scale = 0.1
+        a, b = (-1 - loc) / scale, (1 - loc) / scale
+        return truncnorm.rvs(a, b, loc=loc, scale=scale)
+
+
+activations = [
+    [
+        {
+            0: {
+                belief_uuid: random_activation(i)
+                for belief_uuid in belief_uuids[np.where(include_beliefs[:, i])[0]]
+            }
+        }
+        for j in range(n_agents)
+    ] for i in range(n_scenarios)
+]
+
+# Generate initial actions
+
+
+def choose_initial_actions(activations, prs):
+    return np.argmax(np.dot(activations, prs), axis=1).reshape(n_agents)
+
+
+prs_select_mat = np.zeros(
+    (n_scenarios, len(belief_uuids), len(behaviour_uuids)), dtype=np.float64)
+
+for i, p in enumerate(prs):
+    for inner in p:
+        prs_select_mat[
+            0,
+            np.where(belief_uuids == inner["beliefUuid"])[0][0],
+            np.where(behaviour_uuids == inner["behaviourUuid"])[0][0],
+        ] = inner["value"]
+
+initial_actions = [
+    choose_initial_actions(
+        np.array([
+            [
+                activations[i][agent_i][0][belief_uuid]
+                for belief_uuid in belief_uuids[np.where(include_beliefs[:, i])[0]]
+            ] for agent_i in range(n_agents)
+        ]),
+        prs_select_mat[i][np.where(include_beliefs[:, i])[0]]
+    )
+    for i in range(n_scenarios)
+]
+
+actions = [
+    [
+        {
+            0: behaviour_uuids[initial_actions[i][j]]
+        } for j in range(n_agents)
+    ] for i in range(n_scenarios)
+]
 # Process and save agents
 
 agents = [
@@ -383,6 +456,16 @@ agents = [
                 belief_uuids[belief_i]: deltas[i, agent_i, belief_i]
                 for belief_i in np.where(include_beliefs[:, i])[0]
             } for agent_i in range(n_agents)
-        ]
+        ],
+        "activations": activations[i],
+        "actions": actions[i]
     }) for i in range(n_scenarios)
 ]
+
+for i in range(n_scenarios):
+    agents[i].to_json(
+        f"output/agents_{i}.json.zst", orient="records"
+    )
+
+    # upload_file(f"output/beliefs_{i}.json", "concept-abm",
+    #             object_name=f"configuration/scenario/{i}/beliefs.json")
