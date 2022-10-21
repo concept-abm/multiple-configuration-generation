@@ -370,3 +370,19 @@ deltas = rng.normal(loc=1.0-0.001, scale=0.1,
                     size=(n_scenarios, n_agents, len(belief_uuids)))
 # Ensure fully positive (v. unlikely for this not to be the case)
 deltas = np.abs(deltas) + 0.0001
+
+
+# Process and save agents
+
+agents = [
+    pd.DataFrame({
+        "uuid": agent_uuids,
+        "friends": friends[i],
+        "deltas": [
+            {
+                belief_uuids[belief_i]: deltas[i, agent_i, belief_i]
+                for belief_i in np.where(include_beliefs[:, i])[0]
+            } for agent_i in range(n_agents)
+        ]
+    }) for i in range(n_scenarios)
+]
