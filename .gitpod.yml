@@ -5,6 +5,14 @@ tasks:
       pyenv global 3.11
       pip install -r requirements.txt
       pip install -U autopep8
+
+  - name: Setup AWS
+    init: |
+      curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+      unzip awscliv2.zip
+      sudo ./aws/install
+      rm -r aws
+      rm awscliv2.zip
 vscode:
   extensions:
     - ms-python.python
