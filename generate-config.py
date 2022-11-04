@@ -1,17 +1,19 @@
 #!/usr/bin/env python
+# pylint: disable=missing-module-docstring, invalid-name
+
+import os
+import json
+import logging
+import shutil
+import sys
+from uuid import uuid5, UUID
 
 import polars as pl
-import os
 import numpy as np
-import json
 import pandas as pd
 import boto3
-import logging
 import networkx
-import sys
-import shutil
 from botocore.exceptions import ClientError
-from uuid import uuid5, UUID
 from scipy.stats import bernoulli, truncnorm
 
 
@@ -34,7 +36,7 @@ def upload_file(file_name, bucket, object_name=None):
     # Upload the file
     s3_client = boto3.client('s3')
     try:
-        response = s3_client.upload_file(file_name, bucket, object_name)
+        s3_client.upload_file(file_name, bucket, object_name)
     except ClientError as e:
         logging.error(e)
         return False
@@ -94,11 +96,17 @@ beliefs = np.array([
 belief_uuids = np.array([str(uuid5(belief_namespace, b)) for b in beliefs])
 
 
-def n(loc, scale):
+def n(l, s):
+    """Return a truncated normal distribution, capped on -1, 1.
+
+    :param l: The location (i.e., the mean)
+    :param s: The scale (i.e., the variance)
+    :return: The scipy distribution.
+    """
     clip_a = -1
     clip_b = 1
-    a, b = (clip_a - loc) / scale, (clip_b - loc) / scale
-    return truncnorm(a, b, loc=loc, scale=scale)
+    n_a, n_b = (clip_a - l) / scale, (clip_b - l) / s
+    return truncnorm(n_a, n_b, loc=l, scale=s)
 
 
 # This is a belief x behaviour array of random distributions for the parameters
@@ -352,7 +360,7 @@ prs = [
     } for i in np.where(include_beliefs)[0] for j in range(prs_mat.shape[1])
 ]
 
-with open(f"output/scenario/{scenario_id}/prs.json", "w") as outfile:
+with open(f"output/scenario/{scenario_id}/prs.json", "w", encoding="utf-8") as outfile:
     json.dump(prs, outfile)
 
 upload_file(f"output/scenario/{scenario_id}/prs.json", "concept-abm",
@@ -417,14 +425,15 @@ pr = truncnorm.rvs(a, b, loc=loc, scale=scale)
 
 
 def random_activation():
+    """Generate a random activation from N(0, 0.1) capped at -1, 1."""
+    # pylint: disable=redefined-outer-name
     rng = np.random.default_rng()
     if rng.random() <= pr:
         return 0.0
-    else:
-        loc = 0.0
-        scale = 0.1
-        a, b = (-1 - loc) / scale, (1 - loc) / scale
-        return truncnorm.rvs(a, b, loc=loc, scale=scale)
+    loc = 0.0
+    scale = 0.1
+    a, b = (-1 - loc) / scale, (1 - loc) / scale
+    return truncnorm.rvs(a, b, loc=loc, scale=scale)
 
 
 activations = [
@@ -441,6 +450,8 @@ activations = [
 
 
 def choose_initial_actions(activations, prs):
+    """Choose the initial actions of agents."""
+    # pylint: disable=redefined-outer-name
     return np.argmax(np.dot(activations, prs), axis=1).reshape(n_agents)
 
 
