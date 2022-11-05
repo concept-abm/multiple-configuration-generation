@@ -76,16 +76,19 @@ beliefs = np.array([
     "I care about the social importance of the car",
     "I want to keep fit",
     "I do not want to perform exercise on my commute",
+
     "Cycling is hard work",
     "I'm not fit enough to walk",
     "I don't think cycling is cool / fun",
     "Car driving is more convenient",
     "I'm scared of getting hit by a car",
+
     "My bike might get stolen",
     "Cycling is dangerous",
     "I get to see the environment when I cycle",
     "Walking allows me to experience the environment",
     "I feel unsafe walking",
+
     "Driving / PT allows me to get to work not sweaty",
     "The traffic is too bad to drive",
     "Driving lets me get to work on time",
@@ -155,11 +158,12 @@ perceptions = np.array([
 ])
 
 relationships = np.array([
+    # I care about the environment
     [
-        n(0.0, 0.1), n(0.0, 0.1), n(0.0, 0.1), n(0.0, 0.1), n(0.0, 0.1),
-        n(0.0, 0.1), n(0.0, 0.1), n(0.0, 0.1), n(0.0, 0.1), n(0.0, 0.1),
-        n(0.0, 0.1), n(0.0, 0.1), n(0.0, 0.1), n(0.0, 0.1), n(0.0, 0.1),
-        n(0.0, 0.1), n(0.0, 0.1), n(0.0, 0.1), n(0.0, 0.1), n(0.0, 0.1)
+        n(0.0, 0.1), n(-0.2, 0.1), n(-0.2, 0.1), n(0.0, 0.1), n(-0.1, 0.1),
+        n(-0.1, 0.1), n(0.0, 0.1), n(-0.2, 0.1), n(-0.1, 0.1), n(0.2, 0.1),
+        n(0.0, 0.1), n(0.0, 0.1), n(0.4, 0.1), n(0.4, 0.1), n(0.0, 0.1),
+        n(-0.1, 0.1), n(0.0, 0.1), n(0.0, 0.1), n(0.0, 0.1), n(0.0, 0.1)
     ],
     [
         n(0.0, 0.1), n(0.0, 0.1), n(0.0, 0.1), n(0.0, 0.1), n(0.0, 0.1),
