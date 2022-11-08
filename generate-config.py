@@ -8,9 +8,9 @@ import shutil
 import sys
 from uuid import uuid5, UUID
 
-import polars as pl
 import numpy as np
 import pandas as pd
+import polars as pl
 import boto3
 import networkx
 from botocore.exceptions import ClientError
@@ -108,7 +108,7 @@ def n(l, s):
     """
     clip_a = -1
     clip_b = 1
-    n_a, n_b = (clip_a - l) / scale, (clip_b - l) / s
+    n_a, n_b = (clip_a - l) / s, (clip_b - l) / s
     return truncnorm(n_a, n_b, loc=l, scale=s)
 
 
