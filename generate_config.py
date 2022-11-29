@@ -117,330 +117,330 @@ def truncn_at_m1_1(location, scale):
 # Behaviours: walk, cycle, PT, drive
 perceptions = np.array([
     # I care about the environment
-    [truncn_at_m1_1(0.6, 0.1), truncn_at_m1_1(0.7, 0.1),
-     truncn_at_m1_1(0.4, 0.1), truncn_at_m1_1(-0.9, 0.1)],
+    [truncn_at_m1_1(0.6, 0.1 / 3), truncn_at_m1_1(0.7, 0.1 / 3),
+     truncn_at_m1_1(0.4, 0.1 / 3), truncn_at_m1_1(-0.9, 0.1 / 3)],
     # I want to get to work quickly
-    [truncn_at_m1_1(-0.3, 0.1), truncn_at_m1_1(0.0, 0.1),
-     truncn_at_m1_1(0.1, 0.1), truncn_at_m1_1(0.5, 0.1)],
+    [truncn_at_m1_1(-0.3, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+     truncn_at_m1_1(0.1, 0.1 / 3), truncn_at_m1_1(0.5, 0.1 / 3)],
     # I care about the social importance of the car
-    [truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.0, 0.1),
-     truncn_at_m1_1(-0.3, 0.1), truncn_at_m1_1(0.8, 0.1)],
+    [truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+     truncn_at_m1_1(-0.3, 0.1 / 3), truncn_at_m1_1(0.8, 0.1 / 3)],
     # I want to keep fit
-    [truncn_at_m1_1(0.4, 0.1), truncn_at_m1_1(0.8, 0.1),
-     truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(-0.3, 0.1)],
+    [truncn_at_m1_1(0.4, 0.1 / 3), truncn_at_m1_1(0.8, 0.1 / 3),
+     truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(-0.3, 0.1 / 3)],
     # I do not want to perform exercise on my commute
-    [truncn_at_m1_1(-0.3, 0.1), truncn_at_m1_1(-0.6, 0.1),
-     truncn_at_m1_1(0.1, 0.05), truncn_at_m1_1(0.1, 0.05)],
+    [truncn_at_m1_1(-0.3, 0.1 / 3), truncn_at_m1_1(-0.6, 0.1 / 3),
+     truncn_at_m1_1(0.1, 0.05 / 3), truncn_at_m1_1(0.1, 0.05 / 3)],
 
     # Cycling is hard work
-    [truncn_at_m1_1(0.0, 0.05), truncn_at_m1_1(-0.8, 0.1),
-     truncn_at_m1_1(0.0, 0.05), truncn_at_m1_1(0.0, 0.05)],
+    [truncn_at_m1_1(0.0, 0.05 / 3), truncn_at_m1_1(-0.8, 0.1 / 3),
+     truncn_at_m1_1(0.0, 0.05 / 3), truncn_at_m1_1(0.0, 0.05 / 3)],
     # I'm not fit enough to walk
-    [truncn_at_m1_1(-0.8, 0.1), truncn_at_m1_1(-0.8, 0.1),
-     truncn_at_m1_1(0.1, 0.05), truncn_at_m1_1(0.1, 0.05)],
+    [truncn_at_m1_1(-0.8, 0.1 / 3), truncn_at_m1_1(-0.8, 0.1 / 3),
+     truncn_at_m1_1(0.1, 0.05 / 3), truncn_at_m1_1(0.1, 0.05 / 3)],
     # I don't think cycling is cool / fun
-    [truncn_at_m1_1(0.0, 0.05), truncn_at_m1_1(-0.2, 0.1),
-     truncn_at_m1_1(0.0, 0.05), truncn_at_m1_1(0.0, 0.05)],
+    [truncn_at_m1_1(0.0, 0.05 / 3), truncn_at_m1_1(-0.2, 0.1 / 3),
+     truncn_at_m1_1(0.0, 0.05 / 3), truncn_at_m1_1(0.0, 0.05 / 3)],
     # Car driving is more convenient
-    [truncn_at_m1_1(0.0, 0.05), truncn_at_m1_1(0., 0.05),
-     truncn_at_m1_1(-0.1, 0.05), truncn_at_m1_1(0.5, 0.1)],
+    [truncn_at_m1_1(0.0, 0.05 / 3), truncn_at_m1_1(0., 0.05 / 3),
+     truncn_at_m1_1(-0.1, 0.05 / 3), truncn_at_m1_1(0.5, 0.1 / 3)],
     # I'm scared of being hit by a car
-    [truncn_at_m1_1(-0.2, 0.1), truncn_at_m1_1(-0.7, 0.1),
-     truncn_at_m1_1(0.0, 0.05), truncn_at_m1_1(0.0, 0.05)],
+    [truncn_at_m1_1(-0.2, 0.1 / 3), truncn_at_m1_1(-0.7, 0.1 / 3),
+     truncn_at_m1_1(0.0, 0.05 / 3), truncn_at_m1_1(0.0, 0.05 / 3)],
 
     # My bike might get stolen
-    [truncn_at_m1_1(0.0, 0.05), truncn_at_m1_1(-0.5, 0.1),
-     truncn_at_m1_1(0.0, 0.05), truncn_at_m1_1(0.0, 0.05)],
+    [truncn_at_m1_1(0.0, 0.05 / 3), truncn_at_m1_1(-0.5, 0.1 / 3),
+     truncn_at_m1_1(0.0, 0.05 / 3), truncn_at_m1_1(0.0, 0.05 / 3)],
     # Cycling is dangerous
-    [truncn_at_m1_1(0.0, 0.05), truncn_at_m1_1(-0.5, 0.1),
-     truncn_at_m1_1(0.2, 0.1), truncn_at_m1_1(0.2, 0.1)],
+    [truncn_at_m1_1(0.0, 0.05 / 3), truncn_at_m1_1(-0.5, 0.1 / 3),
+     truncn_at_m1_1(0.2, 0.1 / 3), truncn_at_m1_1(0.2, 0.1 / 3)],
     # I get to see the environment when I cycle
-    [truncn_at_m1_1(0.2, 0.1), truncn_at_m1_1(0.7, 0.1),
-     truncn_at_m1_1(-0.1, 0.1), truncn_at_m1_1(-0.1, 0.1)],
+    [truncn_at_m1_1(0.2, 0.1 / 3), truncn_at_m1_1(0.7, 0.1 / 3),
+     truncn_at_m1_1(-0.1, 0.1 / 3), truncn_at_m1_1(-0.1, 0.1 / 3)],
     # Walking allows me to experience the environment
-    [truncn_at_m1_1(0.7, 0.1), truncn_at_m1_1(0.2, 0.1),
-     truncn_at_m1_1(-0.1, 0.1), truncn_at_m1_1(-0.1, 0.1)],
+    [truncn_at_m1_1(0.7, 0.1 / 3), truncn_at_m1_1(0.2, 0.1 / 3),
+     truncn_at_m1_1(-0.1, 0.1 / 3), truncn_at_m1_1(-0.1, 0.1 / 3)],
     # I feel unsafe walking
-    [truncn_at_m1_1(-0.5, 0.1), truncn_at_m1_1(-0.1, 0.1),
-     truncn_at_m1_1(0.1, 0.1), truncn_at_m1_1(0.1, 0.1)],
+    [truncn_at_m1_1(-0.5, 0.1 / 3), truncn_at_m1_1(-0.1, 0.1 / 3),
+     truncn_at_m1_1(0.1, 0.1 / 3), truncn_at_m1_1(0.1, 0.1 / 3)],
 
     # Driving / PT allows me to get to work not sweaty
-    [truncn_at_m1_1(-0.1, 0.1), truncn_at_m1_1(-0.5, 0.1),
-     truncn_at_m1_1(0.3, 0.1), truncn_at_m1_1(0.3, 0.1)],
+    [truncn_at_m1_1(-0.1, 0.1 / 3), truncn_at_m1_1(-0.5, 0.1 / 3),
+     truncn_at_m1_1(0.3, 0.1 / 3), truncn_at_m1_1(0.3, 0.1 / 3)],
     # The traffic is too bad to drive
-    [truncn_at_m1_1(0.4, 0.1), truncn_at_m1_1(0.4, 0.1),
-     truncn_at_m1_1(-0.3, 0.1), truncn_at_m1_1(-0.9, 0.1)],
+    [truncn_at_m1_1(0.4, 0.1 / 3), truncn_at_m1_1(0.4, 0.1 / 3),
+     truncn_at_m1_1(-0.3, 0.1 / 3), truncn_at_m1_1(-0.9, 0.1 / 3)],
     # Driving lets me get to work on time
-    [truncn_at_m1_1(0.0, 0.05), truncn_at_m1_1(0.0, 0.05),
-     truncn_at_m1_1(-0.1, 0.1), truncn_at_m1_1(0.6, 0.1)],
+    [truncn_at_m1_1(0.0, 0.05 / 3), truncn_at_m1_1(0.0, 0.05 / 3),
+     truncn_at_m1_1(-0.1, 0.1 / 3), truncn_at_m1_1(0.6, 0.1 / 3)],
     # PT is unreliable
-    [truncn_at_m1_1(0.3, 0.1), truncn_at_m1_1(0.3, 0.1),
-     truncn_at_m1_1(-0.9, 0.1), truncn_at_m1_1(0.4, 0.1)],
+    [truncn_at_m1_1(0.3, 0.1 / 3), truncn_at_m1_1(0.3, 0.1 / 3),
+     truncn_at_m1_1(-0.9, 0.1 / 3), truncn_at_m1_1(0.4, 0.1 / 3)],
     # My car is bad
-    [truncn_at_m1_1(0.2, 0.1), truncn_at_m1_1(0.2, 0.1),
-     truncn_at_m1_1(0.2, 0.1), truncn_at_m1_1(-0.3, 0.1)],
+    [truncn_at_m1_1(0.2, 0.1 / 3), truncn_at_m1_1(0.2, 0.1 / 3),
+     truncn_at_m1_1(0.2, 0.1 / 3), truncn_at_m1_1(-0.3, 0.1 / 3)],
 ])
 
 relationships = np.array([
     # I care about the environment
     [
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(-0.2, 0.1),
-        truncn_at_m1_1(-0.2, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(-0.1, 0.1), truncn_at_m1_1(-0.1, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(-0.2, 0.1),
-        truncn_at_m1_1(-0.1, 0.1), truncn_at_m1_1(0.2, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(0.4, 0.1), truncn_at_m1_1(0.4, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(-0.1, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.0, 0.1)
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(-0.2, 0.1 / 3),
+        truncn_at_m1_1(-0.2, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(-0.1, 0.1 / 3), truncn_at_m1_1(-0.1, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(-0.2, 0.1 / 3),
+        truncn_at_m1_1(-0.1, 0.1 / 3), truncn_at_m1_1(0.2, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(0.4, 0.1 / 3), truncn_at_m1_1(0.4, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(-0.1, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3)
     ],
     # I want to get to work quickly
     [
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(0.2, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(0.1, 0.1), truncn_at_m1_1(-0.1, 0.1),
-        truncn_at_m1_1(0.1, 0.1), truncn_at_m1_1(0.3, 0.1),
-        truncn_at_m1_1(0.5, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(0.1, 0.1), truncn_at_m1_1(0.1, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.4, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.4, 0.1),
-        truncn_at_m1_1(0.2, 0.1), truncn_at_m1_1(0.0, 0.1)
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(0.2, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(0.1, 0.1 / 3), truncn_at_m1_1(-0.1, 0.1 / 3),
+        truncn_at_m1_1(0.1, 0.1 / 3), truncn_at_m1_1(0.3, 0.1 / 3),
+        truncn_at_m1_1(0.5, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(0.1, 0.1 / 3), truncn_at_m1_1(0.1, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.4, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.4, 0.1 / 3),
+        truncn_at_m1_1(0.2, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3)
     ],
     # I care about the social importance of the car
     [
-        truncn_at_m1_1(-0.3, 0.1), truncn_at_m1_1(0.2, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(0.2, 0.1), truncn_at_m1_1(0.1, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.5, 0.1),
-        truncn_at_m1_1(0.3, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(-0.1, 0.1), truncn_at_m1_1(-0.1, 0.1),
-        truncn_at_m1_1(-0.1, 0.1), truncn_at_m1_1(-0.1, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.3, 0.1),
-        truncn_at_m1_1(-0.5, 0.1), truncn_at_m1_1(0.3, 0.1),
-        truncn_at_m1_1(0.3, 0.1), truncn_at_m1_1(-0.2, 0.1)
+        truncn_at_m1_1(-0.3, 0.1 / 3), truncn_at_m1_1(0.2, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(0.2, 0.1 / 3), truncn_at_m1_1(0.1, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.5, 0.1 / 3),
+        truncn_at_m1_1(0.3, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(-0.1, 0.1 / 3), truncn_at_m1_1(-0.1, 0.1 / 3),
+        truncn_at_m1_1(-0.1, 0.1 / 3), truncn_at_m1_1(-0.1, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.3, 0.1 / 3),
+        truncn_at_m1_1(-0.5, 0.1 / 3), truncn_at_m1_1(0.3, 0.1 / 3),
+        truncn_at_m1_1(0.3, 0.1 / 3), truncn_at_m1_1(-0.2, 0.1 / 3)
     ],
     # I want to keep fit
     [
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(-0.1, 0.1),
-        truncn_at_m1_1(-0.1, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(-0.5, 0.1), truncn_at_m1_1(-0.4, 0.1),
-        truncn_at_m1_1(-0.3, 0.1), truncn_at_m1_1(-0.2, 0.1),
-        truncn_at_m1_1(-0.1, 0.1), truncn_at_m1_1(-0.1, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(-0.2, 0.1),
-        truncn_at_m1_1(0.2, 0.1), truncn_at_m1_1(0.2, 0.1),
-        truncn_at_m1_1(-0.2, 0.1), truncn_at_m1_1(-0.4, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.0, 0.1)
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(-0.1, 0.1 / 3),
+        truncn_at_m1_1(-0.1, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(-0.5, 0.1 / 3), truncn_at_m1_1(-0.4, 0.1 / 3),
+        truncn_at_m1_1(-0.3, 0.1 / 3), truncn_at_m1_1(-0.2, 0.1 / 3),
+        truncn_at_m1_1(-0.1, 0.1 / 3), truncn_at_m1_1(-0.1, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(-0.2, 0.1 / 3),
+        truncn_at_m1_1(0.2, 0.1 / 3), truncn_at_m1_1(0.2, 0.1 / 3),
+        truncn_at_m1_1(-0.2, 0.1 / 3), truncn_at_m1_1(-0.4, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3)
     ],
     # I do not want to perform exercise on my commute
     [
-        truncn_at_m1_1(-0.1, 0.1), truncn_at_m1_1(0.2, 0.1),
-        truncn_at_m1_1(0.1, 0.1), truncn_at_m1_1(-0.5, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.4, 0.1),
-        truncn_at_m1_1(0.3, 0.1), truncn_at_m1_1(0.3, 0.1),
-        truncn_at_m1_1(0.3, 0.1), truncn_at_m1_1(0.1, 0.1),
-        truncn_at_m1_1(0.1, 0.1), truncn_at_m1_1(0.3, 0.1),
-        truncn_at_m1_1(-0.2, 0.1), truncn_at_m1_1(-0.2, 0.1),
-        truncn_at_m1_1(0.1, 0.1), truncn_at_m1_1(0.5, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.3, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.0, 0.1)
+        truncn_at_m1_1(-0.1, 0.1 / 3), truncn_at_m1_1(0.2, 0.1 / 3),
+        truncn_at_m1_1(0.1, 0.1 / 3), truncn_at_m1_1(-0.5, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.4, 0.1 / 3),
+        truncn_at_m1_1(0.3, 0.1 / 3), truncn_at_m1_1(0.3, 0.1 / 3),
+        truncn_at_m1_1(0.3, 0.1 / 3), truncn_at_m1_1(0.1, 0.1 / 3),
+        truncn_at_m1_1(0.1, 0.1 / 3), truncn_at_m1_1(0.3, 0.1 / 3),
+        truncn_at_m1_1(-0.2, 0.1 / 3), truncn_at_m1_1(-0.2, 0.1 / 3),
+        truncn_at_m1_1(0.1, 0.1 / 3), truncn_at_m1_1(0.5, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.3, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3)
     ],
     # Cycling is hard work
     [
-        truncn_at_m1_1(-0.2, 0.1), truncn_at_m1_1(0.2, 0.1),
-        truncn_at_m1_1(0.2, 0.1), truncn_at_m1_1(-0.2, 0.1),
-        truncn_at_m1_1(0.2, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(0.1, 0.1), truncn_at_m1_1(0.2, 0.1),
-        truncn_at_m1_1(0.3, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(0.1, 0.1), truncn_at_m1_1(0.2, 0.1),
-        truncn_at_m1_1(-0.1, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.5, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.2, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.0, 0.1)
+        truncn_at_m1_1(-0.2, 0.1 / 3), truncn_at_m1_1(0.2, 0.1 / 3),
+        truncn_at_m1_1(0.2, 0.1 / 3), truncn_at_m1_1(-0.2, 0.1 / 3),
+        truncn_at_m1_1(0.2, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(0.1, 0.1 / 3), truncn_at_m1_1(0.2, 0.1 / 3),
+        truncn_at_m1_1(0.3, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(0.1, 0.1 / 3), truncn_at_m1_1(0.2, 0.1 / 3),
+        truncn_at_m1_1(-0.1, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.5, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.2, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3)
     ],
     # I'm not fit enough to walk
     [
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.1, 0.1),
-        truncn_at_m1_1(0.1, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(0.5, 0.1), truncn_at_m1_1(0.5, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(0.2, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(-0.1, 0.1),
-        truncn_at_m1_1(-0.1, 0.1), truncn_at_m1_1(0.2, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.1, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.0, 0.1)
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.1, 0.1 / 3),
+        truncn_at_m1_1(0.1, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(0.5, 0.1 / 3), truncn_at_m1_1(0.5, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(0.2, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(-0.1, 0.1 / 3),
+        truncn_at_m1_1(-0.1, 0.1 / 3), truncn_at_m1_1(0.2, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.1, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3)
     ],
     # I don't think cycling is cool / fun
     [
-        truncn_at_m1_1(-0.2, 0.1), truncn_at_m1_1(0.2, 0.1),
-        truncn_at_m1_1(0.2, 0.1), truncn_at_m1_1(-0.1, 0.1),
-        truncn_at_m1_1(0.1, 0.1), truncn_at_m1_1(0.5, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(0.4, 0.1), truncn_at_m1_1(0.3, 0.1),
-        truncn_at_m1_1(0.3, 0.1), truncn_at_m1_1(0.4, 0.1),
-        truncn_at_m1_1(-0.5, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.4, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.3, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.0, 0.1)
+        truncn_at_m1_1(-0.2, 0.1 / 3), truncn_at_m1_1(0.2, 0.1 / 3),
+        truncn_at_m1_1(0.2, 0.1 / 3), truncn_at_m1_1(-0.1, 0.1 / 3),
+        truncn_at_m1_1(0.1, 0.1 / 3), truncn_at_m1_1(0.5, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(0.4, 0.1 / 3), truncn_at_m1_1(0.3, 0.1 / 3),
+        truncn_at_m1_1(0.3, 0.1 / 3), truncn_at_m1_1(0.4, 0.1 / 3),
+        truncn_at_m1_1(-0.5, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.4, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.3, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3)
     ],
     # Car driving is more convenient
     [
-        truncn_at_m1_1(-0.2, 0.1), truncn_at_m1_1(0.4, 0.1),
-        truncn_at_m1_1(0.3, 0.1), truncn_at_m1_1(-0.1, 0.1),
-        truncn_at_m1_1(0.2, 0.1), truncn_at_m1_1(0.2, 0.1),
-        truncn_at_m1_1(0.1, 0.1), truncn_at_m1_1(0.2, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(0.1, 0.1), truncn_at_m1_1(0.1, 0.1),
-        truncn_at_m1_1(-0.2, 0.1), truncn_at_m1_1(-0.2, 0.1),
-        truncn_at_m1_1(0.1, 0.1), truncn_at_m1_1(0.4, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.5, 0.1),
-        truncn_at_m1_1(-0.3, 0.1), truncn_at_m1_1(-0.3, 0.1)
+        truncn_at_m1_1(-0.2, 0.1 / 3), truncn_at_m1_1(0.4, 0.1 / 3),
+        truncn_at_m1_1(0.3, 0.1 / 3), truncn_at_m1_1(-0.1, 0.1 / 3),
+        truncn_at_m1_1(0.2, 0.1 / 3), truncn_at_m1_1(0.2, 0.1 / 3),
+        truncn_at_m1_1(0.1, 0.1 / 3), truncn_at_m1_1(0.2, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(0.1, 0.1 / 3), truncn_at_m1_1(0.1, 0.1 / 3),
+        truncn_at_m1_1(-0.2, 0.1 / 3), truncn_at_m1_1(-0.2, 0.1 / 3),
+        truncn_at_m1_1(0.1, 0.1 / 3), truncn_at_m1_1(0.4, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.5, 0.1 / 3),
+        truncn_at_m1_1(-0.3, 0.1 / 3), truncn_at_m1_1(-0.3, 0.1 / 3)
     ],
     # I'm scared of being hit by a car
     [
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.1, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(0.1, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.1, 0.1),
-        truncn_at_m1_1(0.3, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(0.1, 0.1), truncn_at_m1_1(0.6, 0.1),
-        truncn_at_m1_1(-0.2, 0.1), truncn_at_m1_1(-0.2, 0.1),
-        truncn_at_m1_1(0.6, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.0, 0.1)
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.1, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(0.1, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.1, 0.1 / 3),
+        truncn_at_m1_1(0.3, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(0.1, 0.1 / 3), truncn_at_m1_1(0.6, 0.1 / 3),
+        truncn_at_m1_1(-0.2, 0.1 / 3), truncn_at_m1_1(-0.2, 0.1 / 3),
+        truncn_at_m1_1(0.6, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3)
     ],
     # My bike might get stolen
     [
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.1, 0.1),
-        truncn_at_m1_1(0.1, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(0.1, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.1, 0.1),
-        truncn_at_m1_1(0.2, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.0, 0.1)
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.1, 0.1 / 3),
+        truncn_at_m1_1(0.1, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(0.1, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.1, 0.1 / 3),
+        truncn_at_m1_1(0.2, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3)
     ],
     # Cycling is dangerous
     [
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(0.1, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.3, 0.1),
-        truncn_at_m1_1(0.1, 0.1), truncn_at_m1_1(0.6, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(-0.3, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(0.1, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.0, 0.1)
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(0.1, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.3, 0.1 / 3),
+        truncn_at_m1_1(0.1, 0.1 / 3), truncn_at_m1_1(0.6, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(-0.3, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(0.1, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3)
     ],
     # I get to see the environment when I cycle
     [
-        truncn_at_m1_1(0.5, 0.1), truncn_at_m1_1(-0.2, 0.1),
-        truncn_at_m1_1(-0.3, 0.1), truncn_at_m1_1(0.1, 0.1),
-        truncn_at_m1_1(-0.1, 0.1), truncn_at_m1_1(-0.5, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(-0.5, 0.1),
-        truncn_at_m1_1(-0.1, 0.1), truncn_at_m1_1(-0.2, 0.1),
-        truncn_at_m1_1(-0.1, 0.1), truncn_at_m1_1(-0.2, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.4, 0.1),
-        truncn_at_m1_1(-0.1, 0.1), truncn_at_m1_1(-0.1, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(-0.1, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.0, 0.1)
+        truncn_at_m1_1(0.5, 0.1 / 3), truncn_at_m1_1(-0.2, 0.1 / 3),
+        truncn_at_m1_1(-0.3, 0.1 / 3), truncn_at_m1_1(0.1, 0.1 / 3),
+        truncn_at_m1_1(-0.1, 0.1 / 3), truncn_at_m1_1(-0.5, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(-0.5, 0.1 / 3),
+        truncn_at_m1_1(-0.1, 0.1 / 3), truncn_at_m1_1(-0.2, 0.1 / 3),
+        truncn_at_m1_1(-0.1, 0.1 / 3), truncn_at_m1_1(-0.2, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.4, 0.1 / 3),
+        truncn_at_m1_1(-0.1, 0.1 / 3), truncn_at_m1_1(-0.1, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(-0.1, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3)
     ],
     # Walking allows me to experience the environment
     [
-        truncn_at_m1_1(0.5, 0.1), truncn_at_m1_1(-0.3, 0.1),
-        truncn_at_m1_1(-0.3, 0.1), truncn_at_m1_1(0.1, 0.1),
-        truncn_at_m1_1(-0.1, 0.1), truncn_at_m1_1(-0.1, 0.1),
-        truncn_at_m1_1(-0.3, 0.1), truncn_at_m1_1(-0.1, 0.1),
-        truncn_at_m1_1(-0.2, 0.1), truncn_at_m1_1(-0.2, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(0.4, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(-0.5, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.0, 0.1)
+        truncn_at_m1_1(0.5, 0.1 / 3), truncn_at_m1_1(-0.3, 0.1 / 3),
+        truncn_at_m1_1(-0.3, 0.1 / 3), truncn_at_m1_1(0.1, 0.1 / 3),
+        truncn_at_m1_1(-0.1, 0.1 / 3), truncn_at_m1_1(-0.1, 0.1 / 3),
+        truncn_at_m1_1(-0.3, 0.1 / 3), truncn_at_m1_1(-0.1, 0.1 / 3),
+        truncn_at_m1_1(-0.2, 0.1 / 3), truncn_at_m1_1(-0.2, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(0.4, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(-0.5, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3)
     ],
     # I feel unsafe walking
     [
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.1, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(0.2, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.3, 0.1),
-        truncn_at_m1_1(0.3, 0.1), truncn_at_m1_1(0.6, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.5, 0.1),
-        truncn_at_m1_1(-0.2, 0.1), truncn_at_m1_1(-0.4, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.0, 0.1)
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.1, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(0.2, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.3, 0.1 / 3),
+        truncn_at_m1_1(0.3, 0.1 / 3), truncn_at_m1_1(0.6, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.5, 0.1 / 3),
+        truncn_at_m1_1(-0.2, 0.1 / 3), truncn_at_m1_1(-0.4, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3)
     ],
     # Driving / PT allows me to get to work not sweaty
     [
-        truncn_at_m1_1(-0.3, 0.1), truncn_at_m1_1(0.4, 0.1),
-        truncn_at_m1_1(0.4, 0.1), truncn_at_m1_1(-0.3, 0.1),
-        truncn_at_m1_1(0.6, 0.1), truncn_at_m1_1(0.4, 0.1),
-        truncn_at_m1_1(0.2, 0.1), truncn_at_m1_1(0.4, 0.1),
-        truncn_at_m1_1(0.5, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(-0.3, 0.1), truncn_at_m1_1(-0.3, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.0, 0.1)
+        truncn_at_m1_1(-0.3, 0.1 / 3), truncn_at_m1_1(0.4, 0.1 / 3),
+        truncn_at_m1_1(0.4, 0.1 / 3), truncn_at_m1_1(-0.3, 0.1 / 3),
+        truncn_at_m1_1(0.6, 0.1 / 3), truncn_at_m1_1(0.4, 0.1 / 3),
+        truncn_at_m1_1(0.2, 0.1 / 3), truncn_at_m1_1(0.4, 0.1 / 3),
+        truncn_at_m1_1(0.5, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(-0.3, 0.1 / 3), truncn_at_m1_1(-0.3, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3)
     ],
     # The traffic is too bad to drive
     [
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.3, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.1, 0.1)
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.3, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.1, 0.1 / 3)
     ],
     # Driving lets me get to work on time
     [
-        truncn_at_m1_1(-0.3, 0.1), truncn_at_m1_1(0.6, 0.1),
-        truncn_at_m1_1(0.3, 0.1), truncn_at_m1_1(-0.2, 0.1),
-        truncn_at_m1_1(0.4, 0.1), truncn_at_m1_1(0.3, 0.1),
-        truncn_at_m1_1(0.1, 0.1), truncn_at_m1_1(0.3, 0.1),
-        truncn_at_m1_1(0.6, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(0.1, 0.1), truncn_at_m1_1(0.1, 0.1),
-        truncn_at_m1_1(-0.3, 0.1), truncn_at_m1_1(-0.3, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.4, 0.1),
-        truncn_at_m1_1(-0.5, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(0.4, 0.1), truncn_at_m1_1(-0.2, 0.1)
+        truncn_at_m1_1(-0.3, 0.1 / 3), truncn_at_m1_1(0.6, 0.1 / 3),
+        truncn_at_m1_1(0.3, 0.1 / 3), truncn_at_m1_1(-0.2, 0.1 / 3),
+        truncn_at_m1_1(0.4, 0.1 / 3), truncn_at_m1_1(0.3, 0.1 / 3),
+        truncn_at_m1_1(0.1, 0.1 / 3), truncn_at_m1_1(0.3, 0.1 / 3),
+        truncn_at_m1_1(0.6, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(0.1, 0.1 / 3), truncn_at_m1_1(0.1, 0.1 / 3),
+        truncn_at_m1_1(-0.3, 0.1 / 3), truncn_at_m1_1(-0.3, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.4, 0.1 / 3),
+        truncn_at_m1_1(-0.5, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(0.4, 0.1 / 3), truncn_at_m1_1(-0.2, 0.1 / 3)
     ],
     # PT is unreliable
     [
-        truncn_at_m1_1(-0.1, 0.1), truncn_at_m1_1(0.6, 0.1),
-        truncn_at_m1_1(0.5, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(0.4, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(0.1, 0.1), truncn_at_m1_1(0.1, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(0.1, 0.1), truncn_at_m1_1(0.4, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.0, 0.1)
+        truncn_at_m1_1(-0.1, 0.1 / 3), truncn_at_m1_1(0.6, 0.1 / 3),
+        truncn_at_m1_1(0.5, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(0.4, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(0.1, 0.1 / 3), truncn_at_m1_1(0.1, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(0.1, 0.1 / 3), truncn_at_m1_1(0.4, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3)
     ],
     # My car is bad
     [
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.2, 0.1),
-        truncn_at_m1_1(0.2, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(-0.1, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.0, 0.1),
-        truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.0, 0.1)
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.2, 0.1 / 3),
+        truncn_at_m1_1(0.2, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(-0.1, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+        truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3)
     ],
 ])
 
@@ -478,65 +478,65 @@ upload_file(f"output/scenario/{SCENARIO_ID}/beliefs.json", "concept-abm",
 # Behaviours: walk, cycle, PT, drive
 prs_mat = np.array([
     # I care about the environment
-    [truncn_at_m1_1(0.6, 0.1), truncn_at_m1_1(0.7, 0.1),
-     truncn_at_m1_1(0.4, 0.1), truncn_at_m1_1(-0.9, 0.1)],
+    [truncn_at_m1_1(0.6, 0.1 / 3), truncn_at_m1_1(0.7, 0.1 / 3),
+     truncn_at_m1_1(0.4, 0.1 / 3), truncn_at_m1_1(-0.9, 0.1 / 3)],
     # I want to get to work quickly
-    [truncn_at_m1_1(-0.3, 0.1), truncn_at_m1_1(0.0, 0.1),
-     truncn_at_m1_1(0.1, 0.1), truncn_at_m1_1(0.5, 0.1)],
+    [truncn_at_m1_1(-0.3, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+     truncn_at_m1_1(0.1, 0.1 / 3), truncn_at_m1_1(0.5, 0.1 / 3)],
     # I care about the social importance of the car
-    [truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(0.0, 0.1),
-     truncn_at_m1_1(-0.3, 0.1), truncn_at_m1_1(0.8, 0.1)],
+    [truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(0.0, 0.1 / 3),
+     truncn_at_m1_1(-0.3, 0.1 / 3), truncn_at_m1_1(0.8, 0.1 / 3)],
     # I want to keep fit
-    [truncn_at_m1_1(0.4, 0.1), truncn_at_m1_1(0.8, 0.1),
-     truncn_at_m1_1(0.0, 0.1), truncn_at_m1_1(-0.3, 0.1)],
+    [truncn_at_m1_1(0.4, 0.1 / 3), truncn_at_m1_1(0.8, 0.1 / 3),
+     truncn_at_m1_1(0.0, 0.1 / 3), truncn_at_m1_1(-0.3, 0.1 / 3)],
     # I do not want to perform exercise on my commute
-    [truncn_at_m1_1(-0.3, 0.1), truncn_at_m1_1(-0.6, 0.1),
-     truncn_at_m1_1(0.1, 0.05), truncn_at_m1_1(0.1, 0.05)],
+    [truncn_at_m1_1(-0.3, 0.1 / 3), truncn_at_m1_1(-0.6, 0.1 / 3),
+     truncn_at_m1_1(0.1, 0.05 / 3), truncn_at_m1_1(0.1, 0.05 / 3)],
     # Cycling is hard work
-    [truncn_at_m1_1(0.0, 0.05), truncn_at_m1_1(-0.8, 0.1),
-     truncn_at_m1_1(0.0, 0.05), truncn_at_m1_1(0.0, 0.05)],
+    [truncn_at_m1_1(0.0, 0.05 / 3), truncn_at_m1_1(-0.8, 0.1 / 3),
+     truncn_at_m1_1(0.0, 0.05 / 3), truncn_at_m1_1(0.0, 0.05 / 3)],
     # I'm not fit enough to walk
-    [truncn_at_m1_1(-0.8, 0.1), truncn_at_m1_1(-0.8, 0.1),
-     truncn_at_m1_1(0.1, 0.05), truncn_at_m1_1(0.1, 0.05)],
+    [truncn_at_m1_1(-0.8, 0.1 / 3), truncn_at_m1_1(-0.8, 0.1 / 3),
+     truncn_at_m1_1(0.1, 0.05 / 3), truncn_at_m1_1(0.1, 0.05 / 3)],
     # I don't think cycling is cool / fun
-    [truncn_at_m1_1(0.0, 0.05), truncn_at_m1_1(-0.2, 0.1),
-     truncn_at_m1_1(0.0, 0.05), truncn_at_m1_1(0.0, 0.05)],
+    [truncn_at_m1_1(0.0, 0.05 / 3), truncn_at_m1_1(-0.2, 0.1 / 3),
+     truncn_at_m1_1(0.0, 0.05 / 3), truncn_at_m1_1(0.0, 0.05 / 3)],
     # Car driving is more convenient
-    [truncn_at_m1_1(0.0, 0.05), truncn_at_m1_1(0., 0.05),
-     truncn_at_m1_1(-0.1, 0.05), truncn_at_m1_1(0.5, 0.1)],
+    [truncn_at_m1_1(0.0, 0.05 / 3), truncn_at_m1_1(0., 0.05 / 3),
+     truncn_at_m1_1(-0.1, 0.05 / 3), truncn_at_m1_1(0.5, 0.1 / 3)],
     # I'm scared of being hit by a car
-    [truncn_at_m1_1(-0.2, 0.1), truncn_at_m1_1(-0.7, 0.1),
-     truncn_at_m1_1(0.0, 0.05), truncn_at_m1_1(0.0, 0.05)],
+    [truncn_at_m1_1(-0.2, 0.1 / 3), truncn_at_m1_1(-0.7, 0.1 / 3),
+     truncn_at_m1_1(0.0, 0.05 / 3), truncn_at_m1_1(0.0, 0.05 / 3)],
     # My bike might get stolen
-    [truncn_at_m1_1(0.0, 0.05), truncn_at_m1_1(-0.5, 0.1),
-     truncn_at_m1_1(0.0, 0.05), truncn_at_m1_1(0.0, 0.05)],
+    [truncn_at_m1_1(0.0, 0.05 / 3), truncn_at_m1_1(-0.5, 0.1 / 3),
+     truncn_at_m1_1(0.0, 0.05 / 3), truncn_at_m1_1(0.0, 0.05 / 3)],
     # Cycling is dangerous
-    [truncn_at_m1_1(0.0, 0.05), truncn_at_m1_1(-0.5, 0.1),
-     truncn_at_m1_1(0.2, 0.1), truncn_at_m1_1(0.2, 0.1)],
+    [truncn_at_m1_1(0.0, 0.05 / 3), truncn_at_m1_1(-0.5, 0.1 / 3),
+     truncn_at_m1_1(0.2, 0.1 / 3), truncn_at_m1_1(0.2, 0.1 / 3)],
     # I get to see the environment when I cycle
-    [truncn_at_m1_1(0.2, 0.1), truncn_at_m1_1(0.7, 0.1),
-     truncn_at_m1_1(-0.1, 0.1), truncn_at_m1_1(-0.1, 0.1)],
+    [truncn_at_m1_1(0.2, 0.1 / 3), truncn_at_m1_1(0.7, 0.1 / 3),
+     truncn_at_m1_1(-0.1, 0.1 / 3), truncn_at_m1_1(-0.1, 0.1 / 3)],
     # Walking allows me to experience the environment
-    [truncn_at_m1_1(0.7, 0.1), truncn_at_m1_1(0.2, 0.1),
-     truncn_at_m1_1(-0.1, 0.1), truncn_at_m1_1(-0.1, 0.1)],
+    [truncn_at_m1_1(0.7, 0.1 / 3), truncn_at_m1_1(0.2, 0.1 / 3),
+     truncn_at_m1_1(-0.1, 0.1 / 3), truncn_at_m1_1(-0.1, 0.1 / 3)],
     # I feel unsafe walking
-    [truncn_at_m1_1(-0.5, 0.1), truncn_at_m1_1(-0.1, 0.1),
-     truncn_at_m1_1(0.1, 0.1), truncn_at_m1_1(0.1, 0.1)],
+    [truncn_at_m1_1(-0.5, 0.1 / 3), truncn_at_m1_1(-0.1, 0.1 / 3),
+     truncn_at_m1_1(0.1, 0.1 / 3), truncn_at_m1_1(0.1, 0.1 / 3)],
     # Driving / PT allows me to get to work not sweaty
-    [truncn_at_m1_1(-0.1, 0.1), truncn_at_m1_1(-0.5, 0.1),
-     truncn_at_m1_1(0.3, 0.1), truncn_at_m1_1(0.3, 0.1)],
+    [truncn_at_m1_1(-0.1, 0.1 / 3), truncn_at_m1_1(-0.5, 0.1 / 3),
+     truncn_at_m1_1(0.3, 0.1 / 3), truncn_at_m1_1(0.3, 0.1 / 3)],
     # The traffic is too bad to drive
-    [truncn_at_m1_1(0.4, 0.1), truncn_at_m1_1(0.4, 0.1),
-     truncn_at_m1_1(-0.3, 0.1), truncn_at_m1_1(-0.9, 0.1)],
+    [truncn_at_m1_1(0.4, 0.1 / 3), truncn_at_m1_1(0.4, 0.1 / 3),
+     truncn_at_m1_1(-0.3, 0.1 / 3), truncn_at_m1_1(-0.9, 0.1 / 3)],
     # Driving lets me get to work on time
-    [truncn_at_m1_1(0.0, 0.05), truncn_at_m1_1(0.0, 0.05),
-     truncn_at_m1_1(-0.1, 0.1), truncn_at_m1_1(0.6, 0.1)],
+    [truncn_at_m1_1(0.0, 0.05 / 3), truncn_at_m1_1(0.0, 0.05 / 3),
+     truncn_at_m1_1(-0.1, 0.1 / 3), truncn_at_m1_1(0.6, 0.1 / 3)],
     # PT is unreliable
-    [truncn_at_m1_1(0.3, 0.1), truncn_at_m1_1(0.3, 0.1),
-     truncn_at_m1_1(-0.9, 0.1), truncn_at_m1_1(0.4, 0.1)],
+    [truncn_at_m1_1(0.3, 0.1 / 3), truncn_at_m1_1(0.3, 0.1 / 3),
+     truncn_at_m1_1(-0.9, 0.1 / 3), truncn_at_m1_1(0.4, 0.1 / 3)],
     # My car is bad
-    [truncn_at_m1_1(0.2, 0.1), truncn_at_m1_1(0.2, 0.1),
-     truncn_at_m1_1(0.2, 0.1), truncn_at_m1_1(-0.3, 0.1)],
+    [truncn_at_m1_1(0.2, 0.1 / 3), truncn_at_m1_1(0.2, 0.1 / 3),
+     truncn_at_m1_1(0.2, 0.1 / 3), truncn_at_m1_1(-0.3, 0.1 / 3)],
 ])
 
 prs = [
