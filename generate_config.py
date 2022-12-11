@@ -591,10 +591,10 @@ w_dist = w_dist_gen()
 for edge in network.edges:
     network.edges[edge[0], edge[1]]["weight"] = w_dist.rvs()
 
-friends = np.full(N_AGENTS, {})
-for edge in network.edges:
-    friends[edge[0]][agent_uuids[edge[1]]
-                     ] = network.edges[edge[0], edge[1]]["weight"]
+friends = np.array([{} for _i in range(N_AGENTS)])
+for u, v, weight in network.edges(data="weight"):
+    friends[u][agent_uuids[v]] = weight
+
 
 # Generate deltas
 
