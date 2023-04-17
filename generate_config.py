@@ -3,45 +3,14 @@
 
 import os
 import json
-import logging
-import shutil
 import sys
 from uuid import uuid5, UUID
 
 import numpy as np
 import pandas as pd
 import polars as pl
-import boto3
 from networkx import watts_strogatz_graph
-from botocore.exceptions import ClientError
 from scipy.stats import bernoulli, truncnorm
-
-
-# s3 --------------------------------------------------------------------------
-
-
-def upload_file(file_name, bucket, object_name=None):
-    """Upload a file to an S3 bucket
-
-    :param file_name: File to upload
-    :param bucket: Bucket to upload to
-    :param object_name: S3 object name. If not specified then file_name is used
-    :return: True if file was uploaded, else False
-    """
-
-    # If S3 object_name was not specified, use file_name
-    if object_name is None:
-        object_name = os.path.basename(file_name)
-
-    # Upload the file
-    s3_client = boto3.client('s3')
-    try:
-        s3_client.upload_file(file_name, bucket, object_name)
-    except ClientError as error:
-        logging.error(error)
-        return False
-    return True
-
 
 # Configuration ---------------------------------------------------------------
 
@@ -63,9 +32,6 @@ behaviour_df = pl.DataFrame({
 
 behaviour_df.write_json(
     f"output/scenario/{SCENARIO_ID}/behaviours.json", row_oriented=True)
-
-upload_file(f"output/scenario/{SCENARIO_ID}/behaviours.json", "concept-abm",
-            object_name=f"configuration/scenario/{SCENARIO_ID}/behaviours.json")
 
 # Process beliefs -------------------------------------------------------------
 
@@ -445,10 +411,10 @@ relationships = np.array([
 ])
 
 dist_beliefs = [
-    bernoulli(0.6) for _i in range(len(beliefs))
+    1 for _i in range(len(beliefs))
 ]
 
-include_beliefs = np.array([b.rvs() for b in dist_beliefs])
+include_beliefs = np.array([1 for _b in dist_beliefs])
 
 beliefs_df = pd.DataFrame({
     "name": beliefs[np.where(include_beliefs)],
@@ -469,8 +435,6 @@ beliefs_df.to_json(
     f"output/scenario/{SCENARIO_ID}/beliefs.json",
     orient="records"
 )
-upload_file(f"output/scenario/{SCENARIO_ID}/beliefs.json", "concept-abm",
-            object_name=f"configuration/scenario/{SCENARIO_ID}/beliefs.json")
 
 # PRS -------------------------------------------------------------------------
 
@@ -549,9 +513,6 @@ prs = [
 
 with open(f"output/scenario/{SCENARIO_ID}/prs.json", "w", encoding="utf-8") as outfile:
     json.dump(prs, outfile)
-
-upload_file(f"output/scenario/{SCENARIO_ID}/prs.json", "concept-abm",
-            object_name=f"configuration/scenario/{SCENARIO_ID}/prs.json")
 
 # Generate agent --------------------------------------------------------------
 
@@ -679,9 +640,3 @@ agents = pd.DataFrame({
 agents.to_json(
     f"output/scenario/{SCENARIO_ID}/agents.json.zst", orient="records"
 )
-
-
-upload_file(f"output/scenario/{SCENARIO_ID}/agents.json.zst", "concept-abm",
-            object_name=f"configuration/scenario/{SCENARIO_ID}/agents.json.zst")
-
-shutil.rmtree(f"output/scenario/{SCENARIO_ID}")
